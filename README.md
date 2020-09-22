@@ -7,8 +7,6 @@ UnKnoWnCheaTs Thread: https://www.unknowncheats.me/forum/among-us/417076-christw
 
 Video Showcase: https://www.youtube.com/watch?v=67n7p6W0NXQ
 
-This is a cheat for Among Us that I've been working on for fun the past week.
-
 Libraries and software used to create this cheat include magic_enum, Dear IMGUI, Il2CppInspector, and Il2CppDumper. I highly recommend using Il2CppInspector's C++ scaffolding generator if you wish to mess around with Il2Cpp games; it saved me loads of time on this project.
 
 ## Features:
