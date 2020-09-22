@@ -1,5 +1,6 @@
 ![Showcase Image](https://i.imgur.com/OZkyV5W.png)
 ## ChristWare: Among Us Edition
+> ### I have the strength to face all conditions by the power that Christ gives me.
 This is a cheat I developed in about a week for the recently popular fad game, Among Us.
 
 UnKnoWnCheaTs Thread: https://www.unknowncheats.me/forum/among-us/417076-christware-edition.html
