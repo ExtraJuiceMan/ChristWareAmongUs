@@ -46,6 +46,9 @@
     <ClCompile Include="user\radar.cpp">
       <Filter>user</Filter>
     </ClCompile>
+    <ClCompile Include="user\CWConstants.cpp">
+      <Filter>user</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="user\main.h">

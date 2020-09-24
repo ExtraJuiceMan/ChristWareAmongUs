@@ -38,6 +38,7 @@
     <ClCompile Include="imgui\imgui_impl_dx11.cpp" />
     <ClCompile Include="imgui\imgui_impl_win32.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
+    <ClCompile Include="user\CWConstants.cpp" />
     <ClCompile Include="user\CWState.cpp" />
     <ClCompile Include="user\GameUtility.cpp" />
     <ClCompile Include="user\radar.cpp" />

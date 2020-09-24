@@ -18,7 +18,7 @@ namespace CWState
     bool NoClip = false;
     bool MarkImposters = false;
     bool ShowRadar = false;
-    float RadarZoom = 8.f;
+    float RadarZoom = 8.0F;
 
     bool SpamChat = false;
     bool AllPlayersSpam = false;

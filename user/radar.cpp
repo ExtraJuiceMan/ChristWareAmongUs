@@ -1,37 +1,18 @@
 #include "radar.hpp"
-
-float iconScale = 4.5f;
-
 using namespace app;
 
 namespace Radar {
-
-	ImColor ColorCodes[12] = {
-		ImColor(155, 0, 0, 255),
-		ImColor(0, 0, 185, 255),
-		ImColor(0, 185, 0, 255),
-		ImColor(255, 20, 147, 255),
-		ImColor(255, 140, 0, 255),
-		ImColor(255, 255, 0, 255),
-		ImColor(80, 80, 80, 255),
-		ImColor(255, 255, 255, 255),
-		ImColor(128, 0, 128, 255),
-		ImColor(139, 69, 19, 255),
-		ImColor(0, 255, 255, 255),
-		ImColor(0, 255, 0, 255)
-	};
-
 	ImColor GetRadarPlayerColor(PlayerControl* player) {
 		auto data = GetPlayerData(player);
-		return ColorCodes[data->fields.ColorId];
+		return AmongUsColorToImVec4(GetPlayerColor(data->fields.ColorId));
 	}
 
 	ImColor GetRadarPlayerColorStatus(PlayerControl* player) {
 		auto data = GetPlayerData(player);
 		if (data->fields.IsImpostor)
-			return ImColor(255, 0, 0, 255);
+			return AmongUsColorToImVec4((*Palette__TypeInfo)->static_fields->ImpostorRed);
 		else if (data->fields.IsDead)
-			return ImColor(255, 255, 255, 255);
+			return AmongUsColorToImVec4((*Palette__TypeInfo)->static_fields->DisabledGrey);
 		else
 			return ImColor(0, 0, 0, 0);
 	}
@@ -45,19 +26,24 @@ namespace Radar {
 		ImGui::SetNextWindowSize(ImVec2(256, 256));
 		ImGui::SetNextWindowSizeConstraints(ImVec2(0, 0), ImVec2(FLT_MAX, FLT_MAX), SquareConstraint);
 
-		ImGui::PushStyleColor(ImGuiCol_TitleBg, ImVec4(255 / 255.0F, 215 / 255.0F, 0.0F, 1.0F));
-		ImGui::PushStyleColor(ImGuiCol_TitleBgActive, ImVec4(255 / 255.0F, 215 / 255.0F, 0.0F, 1.0F));
-		ImGui::PushStyleColor(ImGuiCol_TitleBgCollapsed, ImVec4(255 / 255.0F, 215 / 255.0F, 0.0F, 1.0F));
-		if (ImGui::Begin("Radar", state, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize))
+		ImGui::PushStyleColor(ImGuiCol_TitleBg, CWConstants::CW_GOLD);
+		ImGui::PushStyleColor(ImGuiCol_TitleBgActive, CWConstants::CW_GOLD);
+		ImGui::PushStyleColor(ImGuiCol_TitleBgCollapsed, CWConstants::CW_GOLD);
+
+		ImGui::Begin("Radar", state, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize);
+
+		ImDrawList* drawList = ImGui::GetWindowDrawList();
+
+		ImVec2 winpos = ImGui::GetWindowPos();
+		ImVec2 winsize = ImGui::GetWindowSize();
+
+		drawList->AddLine(ImVec2(winpos.x + winsize.x * 0.5F, winpos.y),
+			ImVec2(winpos.x + winsize.x * 0.5F, winpos.y + winsize.y), ImColor(70, 70, 70, 255), 1.0F);
+		drawList->AddLine(ImVec2(winpos.x, winpos.y + winsize.y * 0.5F),
+			ImVec2(winpos.x + winsize.x, winpos.y + winsize.y * 0.5F), ImColor(70, 70, 70, 255), 1.0F);
+
+		if (IsInGame())
 		{
-			ImDrawList* draw_list = ImGui::GetWindowDrawList();
-
-			ImVec2 winpos = ImGui::GetWindowPos();
-			ImVec2 winsize = ImGui::GetWindowSize();
-
-			draw_list->AddLine(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y), ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y), ImColor(70, 70, 70, 255), 1.f);
-			draw_list->AddLine(ImVec2(winpos.x, winpos.y + winsize.y * 0.5f), ImVec2(winpos.x + winsize.x, winpos.y + winsize.y * 0.5f), ImColor(70, 70, 70, 255), 1.f);
-
 			PlayerControl* localPlayer = (*PlayerControl__TypeInfo)->static_fields->LocalPlayer;
 
 			if (!localPlayer) {
@@ -65,24 +51,28 @@ namespace Radar {
 				return;
 			}
 
-			draw_list->AddCircleFilled(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y * 0.5f), iconScale, GetRadarPlayerColor(localPlayer));
-			draw_list->AddCircle(ImVec2(winpos.x + winsize.x * 0.5f, winpos.y + winsize.y * 0.5f), iconScale + 0.5f, GetRadarPlayerColorStatus(localPlayer), 0, 2.0f);
+			drawList->AddCircleFilled(ImVec2(winpos.x + winsize.x * 0.5F, winpos.y + winsize.y * 0.5F),
+				CWConstants::ICON_SCALE, GetRadarPlayerColor(localPlayer));
+			drawList->AddCircle(ImVec2(winpos.x + winsize.x * 0.5F, winpos.y + winsize.y * 0.5F),
+				CWConstants::ICON_SCALE + 0.5f, GetRadarPlayerColorStatus(localPlayer), 0, 2.0F);
 
 			Vector2 localPos = PlayerControl_GetTruePosition(localPlayer, NULL);
-			for (auto player : GetAllPlayers()) {
-				Vector2 playerPos = PlayerControl_GetTruePosition(player, NULL);
 
-				if (localPos.x == playerPos.x && localPos.y == playerPos.y)
+			for (auto player : GetAllPlayers()) {
+				if (localPlayer == player)
 					continue;
 
-				float rad_x = std::clamp(winpos.x + ((playerPos.x - localPos.x) * radarZoom + winsize.x * 0.5f), winpos.x + iconScale * 0.5f, winpos.x + winsize.x - iconScale * 0.5f);
-				float rad_y = std::clamp(winpos.y + ((localPos.y - playerPos.y) * radarZoom + winsize.y * 0.5f), winpos.y + iconScale * 0.5f, winpos.y + winsize.y - iconScale * 0.5f);
+				Vector2 playerPos = PlayerControl_GetTruePosition(player, NULL);
 
-				draw_list->AddCircleFilled(ImVec2(rad_x, rad_y), iconScale, GetRadarPlayerColor(player));
-				draw_list->AddCircle(ImVec2(rad_x, rad_y), iconScale + 0.5f, GetRadarPlayerColorStatus(player), 0, 2.0f);
+				float radX = std::clamp(winpos.x + ((playerPos.x - localPos.x) * radarZoom + winsize.x * 0.5F),
+					winpos.x + CWConstants::ICON_SCALE * 0.5F, winpos.x + winsize.x - CWConstants::ICON_SCALE * 0.5F);
+				float radY = std::clamp(winpos.y + ((localPos.y - playerPos.y) * radarZoom + winsize.y * 0.5F),
+					winpos.y + CWConstants::ICON_SCALE * 0.5F, winpos.y + winsize.y - CWConstants::ICON_SCALE * 0.5F);
+
+				drawList->AddCircleFilled(ImVec2(radX, radY), CWConstants::ICON_SCALE, GetRadarPlayerColor(player));
+				drawList->AddCircle(ImVec2(radX, radY), CWConstants::ICON_SCALE + 0.5F, GetRadarPlayerColorStatus(player), 0, 2.0F);
 			}
-
-			ImGui::End();
 		}
+		ImGui::End();
 	}
 }

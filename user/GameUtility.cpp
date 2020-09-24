@@ -10,7 +10,7 @@ ImVec4 AmongUsColorToImVec4(Color color)
     return ImVec4(color.r, color.g, color.b, color.a);
 }
 
-ImVec4 AmongUsColorToImVec4(Color32 color)
+ImVec4 AmongUsColorToImVec4(CorrectedColor32 color)
 {
     return ImVec4(color.r / 255.0F, color.g / 255.0F, color.b / 255.0F, color.a / 255.0F);
 }
@@ -19,7 +19,7 @@ uint8_t GetNextColor(uint8_t c)
 {
     c++;
 
-    if (c >= (*Palette__TypeInfo)->static_fields->ShadowColors->max_length)
+    if (c >= (*Palette__TypeInfo)->static_fields->PlayerColors->max_length)
     {
         c = 0;
     }
@@ -54,4 +54,16 @@ bool CheckColorAvailable(uint8_t color)
     }
 
     return true;
+}
+
+bool IsInGame()
+{
+    return (*AmongUsClient__TypeInfo)->static_fields->Instance->fields._.GameState == InnerNetClient_GameStates__Enum_Joined
+        || (*AmongUsClient__TypeInfo)->static_fields->Instance->fields._.GameState == InnerNetClient_GameStates__Enum_Started;
+}
+
+CorrectedColor32 GetPlayerColor(uint8_t colorId)
+{
+    CorrectedColor32* colorArray = (CorrectedColor32*)(*Palette__TypeInfo)->static_fields->PlayerColors->vector;
+    return colorArray[colorId];
 }

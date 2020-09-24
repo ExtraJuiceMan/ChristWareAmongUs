@@ -140,7 +140,8 @@ HRESULT __stdcall D3D_FUNCTION_HOOK(IDXGISwapChain* pThis, UINT SyncInterval, UI
             ImGui::Checkbox("NoClip", &CWState::NoClip);
             ImGui::Checkbox("Mark Imposters", &CWState::MarkImposters);
             ImGui::Checkbox("Radar", &CWState::ShowRadar);
-            ImGui::SliderFloat("Radar Zoom", &CWState::RadarZoom, 8.f, 16.f, "%.f", 1.0f);
+            ImGui::Text("Radar Zoom");
+            ImGui::SliderFloat("##RadarZoom", &CWState::RadarZoom, 4.0F, 16.0F, "%.f", 1.0F);
         }
 
         if (ImGui::CollapsingHeader("Ban Points"))
@@ -171,7 +172,7 @@ HRESULT __stdcall D3D_FUNCTION_HOOK(IDXGISwapChain* pThis, UINT SyncInterval, UI
             CWState::ChatCounter.GenerateInput("##SpamChatInverval");
         }
 
-        if (ImGui::CollapsingHeader("Players"))
+        if (ImGui::CollapsingHeader("Players") && IsInGame())
         {
             if (GetAllPlayers().size() > 0
                 && CWState::MurderQueue.empty())
@@ -340,10 +341,12 @@ HRESULT __stdcall D3D_FUNCTION_HOOK(IDXGISwapChain* pThis, UINT SyncInterval, UI
 
             ImGui::Spacing();
 
-            for (int i = 0; i < (*Palette__TypeInfo)->static_fields->ShadowColors->max_length; i++)
+            for (int i = 0; i < (*Palette__TypeInfo)->static_fields->PlayerColors->max_length; i++)
             {
+                ImGui::PushStyleColor(ImGuiCol_Button, AmongUsColorToImVec4(GetPlayerColor(i)));
                 if (ImGui::Button((std::string("Color ") + std::to_string(i)).c_str()))
                     CWState::ColorTarget = i;
+                ImGui::PopStyleColor();
 
                 if ((*PlayerControl__TypeInfo)->static_fields->LocalPlayer != NULL
                     && GetPlayerData((*PlayerControl__TypeInfo)->static_fields->LocalPlayer)->fields.ColorId == i)

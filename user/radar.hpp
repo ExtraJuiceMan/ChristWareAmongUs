@@ -9,6 +9,7 @@
 #include <iostream>
 #include "il2cpp-appdata.h"
 #include "GameUtility.hpp"
+#include "CWConstants.hpp"
 
 namespace Radar
 {
