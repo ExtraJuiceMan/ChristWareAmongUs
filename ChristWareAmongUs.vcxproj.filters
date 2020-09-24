@@ -43,6 +43,9 @@
     <ClCompile Include="user\GameUtility.cpp">
       <Filter>user</Filter>
     </ClCompile>
+    <ClCompile Include="user\radar.cpp">
+      <Filter>user</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="user\main.h">
@@ -124,6 +127,9 @@
       <Filter>user</Filter>
     </ClInclude>
     <ClInclude Include="user\GameUtility.hpp">
+      <Filter>user</Filter>
+    </ClInclude>
+    <ClInclude Include="user\radar.hpp">
       <Filter>user</Filter>
     </ClInclude>
   </ItemGroup>
