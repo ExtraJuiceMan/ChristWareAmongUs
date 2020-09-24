@@ -13,6 +13,7 @@ Libraries and software used to create this cheat include magic_enum, Dear IMGUI,
 - Force a meeting
 - NoClip
 - Mark imposters
+- Radar (courtesy of [v0idp](https://github.com/v0idp))
 - Reset disconnection ban time
 - Spam chat, and force other players to spam
 - Player list displaying imposters, crew members
