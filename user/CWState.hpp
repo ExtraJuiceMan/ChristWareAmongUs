@@ -18,6 +18,8 @@ namespace CWState
 
     extern bool NoClip;
     extern bool MarkImposters;
+    extern bool ShowRadar;
+    extern float RadarZoom;
 
     extern bool SpamChat;
     extern bool AllPlayersSpam;

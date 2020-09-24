@@ -20,6 +20,7 @@
 #include "magic_enum.hpp"
 #include "detours.h"
 #include "helpers.h"
+#include "radar.hpp"
 
 using namespace app;
 
@@ -102,6 +103,10 @@ HRESULT __stdcall D3D_FUNCTION_HOOK(IDXGISwapChain* pThis, UINT SyncInterval, UI
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
+    if (CWState::ShowRadar) {
+        Radar::RenderRadar(&CWState::ShowRadar, CWState::RadarZoom);
+    }
+
     if (CWState::ShowMenu)
     {
         ImGui::PushStyleColor(ImGuiCol_TitleBg, CWConstants::CW_GOLD);
@@ -134,6 +139,8 @@ HRESULT __stdcall D3D_FUNCTION_HOOK(IDXGISwapChain* pThis, UINT SyncInterval, UI
             }
             ImGui::Checkbox("NoClip", &CWState::NoClip);
             ImGui::Checkbox("Mark Imposters", &CWState::MarkImposters);
+            ImGui::Checkbox("Radar", &CWState::ShowRadar);
+            ImGui::SliderFloat("Radar Zoom", &CWState::RadarZoom, 8.f, 16.f, "%.f", 1.0f);
         }
 
         if (ImGui::CollapsingHeader("Ban Points"))

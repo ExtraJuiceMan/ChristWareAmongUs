@@ -40,6 +40,7 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="user\CWState.cpp" />
     <ClCompile Include="user\GameUtility.cpp" />
+    <ClCompile Include="user\radar.cpp" />
     <ClCompile Include="user\StringUtility.cpp" />
     <ClInclude Include="user\GameUtility.hpp" />
     <ClInclude Include="user\CWConstants.hpp" />
@@ -48,6 +49,7 @@
     </ClInclude>
     <ClCompile Include="user\D3D11Hooking.cpp" />
     <ClCompile Include="user\main.cpp" />
+    <ClInclude Include="user\radar.hpp" />
     <ClInclude Include="user\StringUtility.hpp" />
   </ItemGroup>
   <ItemGroup>
