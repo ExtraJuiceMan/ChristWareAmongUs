@@ -17,6 +17,7 @@ namespace CWState
 
     bool NoClip = false;
     bool MarkImposters = false;
+    bool ShowGhosts = false;
     bool ShowRadar = false;
     float RadarZoom = 8.0F;
 
