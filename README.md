@@ -11,8 +11,10 @@ Libraries and software used to create this cheat include magic_enum, Dear IMGUI,
 
 ## Features:
 - Force a meeting
+- Force end a meeting
 - NoClip
 - Mark imposters
+- Show Ghosts
 - Radar (courtesy of [v0idp](https://github.com/v0idp))
 - Reset disconnection ban time
 - Spam chat, and force other players to spam
