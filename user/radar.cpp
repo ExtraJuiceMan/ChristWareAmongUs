@@ -23,6 +23,8 @@ namespace Radar {
 	}
 
 	void RenderRadar(bool* state, float radarZoom) {
+		if (IsInGame())
+		{
 		ImGui::SetNextWindowSize(ImVec2(256, 256));
 		ImGui::SetNextWindowSizeConstraints(ImVec2(0, 0), ImVec2(FLT_MAX, FLT_MAX), SquareConstraint);
 
@@ -42,8 +44,7 @@ namespace Radar {
 		drawList->AddLine(ImVec2(winpos.x, winpos.y + winsize.y * 0.5F),
 			ImVec2(winpos.x + winsize.x, winpos.y + winsize.y * 0.5F), ImColor(70, 70, 70, 255), 1.0F);
 
-		if (IsInGame())
-		{
+		
 			PlayerControl* localPlayer = (*PlayerControl__TypeInfo)->static_fields->LocalPlayer;
 
 			if (!localPlayer) {

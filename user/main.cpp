@@ -132,13 +132,16 @@ HRESULT __stdcall D3D_FUNCTION_HOOK(IDXGISwapChain* pThis, UINT SyncInterval, UI
         ImGui::Spacing();
 
         if (ImGui::CollapsingHeader("Game"))
-        {
-            if (ImGui::Button("Call Meeting"))
-            {
-                PlayerControl_CmdReportDeadBody((*PlayerControl__TypeInfo)->static_fields->LocalPlayer, NULL, NULL);
-            }
+        {    
+        if (ImGui::Button("Call Meeting"))
+            PlayerControl_CmdReportDeadBody((*PlayerControl__TypeInfo)->static_fields->LocalPlayer, NULL, NULL);
+
+        if (ImGui::Button("End Meeting"))
+            MeetingHud_ForceSkipAll((*MeetingHud__TypeInfo)->static_fields->Instance, NULL);
+            
             ImGui::Checkbox("NoClip", &CWState::NoClip);
             ImGui::Checkbox("Mark Imposters", &CWState::MarkImposters);
+            ImGui::Checkbox("Show Ghosts", &CWState::ShowGhosts);
             ImGui::Checkbox("Radar", &CWState::ShowRadar);
             ImGui::Text("Radar Zoom");
             ImGui::SliderFloat("##RadarZoom", &CWState::RadarZoom, 4.0F, 16.0F, "%.f", 1.0F);
@@ -624,6 +627,16 @@ void HudHook(MethodInfo* m)
     {
         auto comp = Component_get_gameObject((Component*)(*PlayerControl__TypeInfo)->static_fields->LocalPlayer, NULL);
         GameObject_set_layer(comp, LayerMask_NameToLayer(CreateNETStringFromANSI("Ghost"), NULL), NULL);
+    }
+
+    if (CWState::ShowGhosts) {
+
+        for (auto player : GetAllPlayers())
+        {
+            auto data = GetPlayerData(player);
+            if (!PlayerControl_get_Visible(player, NULL) && data->fields.IsDead)
+                PlayerControl_set_Visible(player, true, NULL);
+        }
     }
 
     if (CWState::MarkImposters)
