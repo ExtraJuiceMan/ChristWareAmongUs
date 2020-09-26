@@ -23,6 +23,8 @@ namespace Radar {
 	}
 
 	void RenderRadar(bool* state, float radarZoom) {
+		if (IsInGame()) // If user is in game render gui
+		{
 		ImGui::SetNextWindowSize(ImVec2(256, 256));
 		ImGui::SetNextWindowSizeConstraints(ImVec2(0, 0), ImVec2(FLT_MAX, FLT_MAX), SquareConstraint);
 
@@ -42,8 +44,6 @@ namespace Radar {
 		drawList->AddLine(ImVec2(winpos.x, winpos.y + winsize.y * 0.5F),
 			ImVec2(winpos.x + winsize.x, winpos.y + winsize.y * 0.5F), ImColor(70, 70, 70, 255), 1.0F);
 
-		if (IsInGame())
-		{
 			PlayerControl* localPlayer = (*PlayerControl__TypeInfo)->static_fields->LocalPlayer;
 
 			if (!localPlayer) {
@@ -72,6 +72,16 @@ namespace Radar {
 				drawList->AddCircleFilled(ImVec2(radX, radY), CWConstants::ICON_SCALE, GetRadarPlayerColor(player));
 				drawList->AddCircle(ImVec2(radX, radY), CWConstants::ICON_SCALE + 0.5F, GetRadarPlayerColorStatus(player), 0, 2.0F);
 			}
+		}
+		else { // if they are not in a game ie. lobby or title screen, show title as "Not in a game"
+			ImGui::SetNextWindowSize(ImVec2(150, 0));
+			ImGui::SetNextWindowSizeConstraints(ImVec2(0, 0), ImVec2(FLT_MAX, FLT_MAX), SquareConstraint);
+
+			ImGui::PushStyleColor(ImGuiCol_TitleBg, CWConstants::CW_GOLD);
+			ImGui::PushStyleColor(ImGuiCol_TitleBgActive, CWConstants::CW_GOLD);
+			ImGui::PushStyleColor(ImGuiCol_TitleBgCollapsed, CWConstants::CW_GOLD);
+
+			ImGui::Begin("Not in game", state, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize);
 		}
 		ImGui::End();
 	}
