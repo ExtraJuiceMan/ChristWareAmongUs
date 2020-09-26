@@ -58,8 +58,7 @@ bool CheckColorAvailable(uint8_t color)
 
 bool IsInGame()
 {
-    return (*AmongUsClient__TypeInfo)->static_fields->Instance->fields._.GameState == InnerNetClient_GameStates__Enum_Joined
-        || (*AmongUsClient__TypeInfo)->static_fields->Instance->fields._.GameState == InnerNetClient_GameStates__Enum_Started;
+    return (*AmongUsClient__TypeInfo)->static_fields->Instance->fields._.GameState == InnerNetClient_GameStates__Enum_Started;
 }
 
 CorrectedColor32 GetPlayerColor(uint8_t colorId)
