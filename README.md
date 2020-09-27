@@ -24,6 +24,7 @@ Libraries and software used to create this cheat include magic_enum, Dear IMGUI,
 - Kill any player
 - Teleport to any player
 - Force a vote on any player
+- Complete a player's tasks
 - Kick any player
 - Instawin as crew by the two features above
 - Close any or all doors, and keep them closed
@@ -38,6 +39,7 @@ Libraries and software used to create this cheat include magic_enum, Dear IMGUI,
     - Kill Cooldown
 - Make everybody rainbow colors
 - Make everybody swap through clothes, hats
+- Set everybody name (may be buggy)
 
 None of these features are clientside-only. Changes *should* be reflected in the view of all players. Be sure that the interval for repeating actions isn't too low, else it won't show up.
 
