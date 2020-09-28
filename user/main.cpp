@@ -255,6 +255,18 @@ HRESULT __stdcall D3D_FUNCTION_HOOK(IDXGISwapChain* pThis, UINT SyncInterval, UI
                     CWState::MurderTarget = player;
 
                 ImGui::SameLine();
+                if (ImGui::Button((std::string("Tasks") + std::string("##") + name).c_str())) {
+                    List_1_GameData_TaskInfo_* tasks = GetPlayerData(player)->fields.Tasks;
+                    for (int i = 0; i < List_1_GameData_TaskInfo__get_Count(tasks, NULL); i++)
+                    {
+                        GameData_TaskInfo* task = List_1_GameData_TaskInfo__get_Item(tasks, i, NULL);
+
+                        if (!task->fields.Complete)
+                            PlayerControl_RpcCompleteTask(player, task->fields.Id, NULL);
+                    }
+                }
+
+                ImGui::SameLine();
                    
                 ImGui::TextColored(nameColor, name.c_str());
             }
@@ -443,6 +455,13 @@ HRESULT __stdcall D3D_FUNCTION_HOOK(IDXGISwapChain* pThis, UINT SyncInterval, UI
             ImGui::Text("Interval");
             ImGui::SameLine();
             CWState::AllClothesCounter.GenerateInput("##RandomClothesAllInterval");
+
+            ImGui::Spacing();
+
+            ImGui::Checkbox("Force All Players Name", &CWState::ForceName);
+            ImGui::Text("Name");
+            ImGui::SameLine();
+            ImGui::InputText("##NickText", CWState::NameText, IM_ARRAYSIZE(CWState::NameText));
         }
 
         ImGui::End();
@@ -533,6 +552,12 @@ void HudHook(MethodInfo* m)
             PlayerControl_CmdCheckColor(player, playerColorId, NULL);
         }
     }
+
+    if (CWState::ForceName)
+    {
+        for (auto player : GetAllPlayers())
+            PlayerControl_RpcSetName(player, CreateNETStringFromANSI(CWState::NameText), NULL);
+    };
 
     if (CWState::KickTarget.has_value())
     {

@@ -53,6 +53,8 @@ namespace CWState
 
     bool ShiftAllColors = false;
     bool ShiftAllClothes = false;
+    bool ForceName = false;
+    char NameText[256] = "";
 
     IterationCounter ChatCounter = IterationCounter(12);
     IterationCounter AllClothesCounter = IterationCounter(18);

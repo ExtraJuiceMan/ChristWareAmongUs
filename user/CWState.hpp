@@ -54,6 +54,8 @@ namespace CWState
 
     extern bool ShiftAllColors;
     extern bool ShiftAllClothes;
+    extern bool ForceName;
+    extern char NameText[256];
 
     extern IterationCounter ChatCounter;
     extern IterationCounter AllClothesCounter;
