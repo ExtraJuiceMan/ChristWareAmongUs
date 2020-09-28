@@ -48,7 +48,7 @@ None of these features are clientside-only. Changes *should* be reflected in the
 ## Usage
 Compile the project (x86, Release)
 
-Inject ChristWareAU.dll into Among Us.exe using your favorite injector (Should be using LoadLibrary)
+Inject ChristWareAU.dll into Among Us.exe using your favorite injector (I always recommend using process hacker)
 
 Make sure the cheat has successfully initialized in the console that spawns
 
