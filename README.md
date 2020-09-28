@@ -1,4 +1,7 @@
 ![Showcase Image](https://i.imgur.com/OZkyV5W.png)
+
+THE ORIGNAL PROJECT AND ALL OF THIS HARDWORK IS THANKS TO ExtraConcentratedJuice: https://github.com/ExtraConcentratedJuice/ChristWareAmongUs
+
 ## ChristWare: Among Us Edition
 > ### I have the strength to face all conditions by the power that Christ gives me.
 This is a cheat I developed in about a week for the recently popular fad game, Among Us.
