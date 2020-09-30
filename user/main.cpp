@@ -137,7 +137,7 @@ HRESULT __stdcall D3D_FUNCTION_HOOK(IDXGISwapChain* pThis, UINT SyncInterval, UI
             PlayerControl_CmdReportDeadBody((*PlayerControl__TypeInfo)->static_fields->LocalPlayer, NULL, NULL);
 
         if (ImGui::Button("End Meeting"))
-            MeetingHud_ForceSkipAll((*MeetingHud__TypeInfo)->static_fields->Instance, NULL);
+            MeetingHud_HOEBPLKIHAA((*MeetingHud__TypeInfo)->static_fields->Instance, NULL);
             
             ImGui::Checkbox("NoClip", &CWState::NoClip);
             ImGui::Checkbox("Mark Imposters", &CWState::MarkImposters);
